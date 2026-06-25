@@ -343,5 +343,359 @@
     </section>
   </body>
   </html>
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.particle{
+    position: absolute;
+}
+
+.btn{
+    display: block;
+    margin: 0 auto;
+     background-color: #49AD09;
+    padding: 18px 45px;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    font-size: 20px;
+    cursor: pointer;
+box-shadow: 0px 100px 80px 
+rgba(49, 49, 49, 0.1), 0px 64.8148px 46.8519px 
+rgba(49, 49, 49, 0.0759259), 0px 38.5185px 25.4815px 
+rgba(49, 49, 49, 0.0607407), 0px 20px 13px 
+rgba(49, 49, 49, 0.05), 0px 8.14815px 6.51852px
+ rgba(49, 49, 49, 0.0392593), 0px 1.85185px 3.14815px
+  rgba(49, 49, 49, 0.0240741);
+}
+
+.text--green{
+    color: #49AD09;
+}
+
+.particle--left{
+    left: 0;
+}
+
+.particle--right{
+    right: 0;
+}
+
+.link{
+    display: block;
+    color: black;
+    font-size: 20px;
+}
+
+.link:hover{
+    color: #49AD09;
+}
+
+.header{
+    position: relative;
+    background-color: #f2f2f2;
+}
+
+.header .particle{
+    top: 0;
+    right: 0;
+}
+
+.navigation{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 0;
+}
+
+.logo span{
+    font-size: 20px;
+    color: black;
+    font-weight: 700;
+}
+
+.nav_list{
+    display: flex;
+    column-gap: 50px;
+    align-items: center;
+}
+
+.nav_link{
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.nav_link .btn{
+    color: white;
+}
+
+ @media (max-width: 1200px) {
+    .header .particle{
+        display: none;
+    }
+
+    .nav{
+        display: none;
+    }
+}
+    .welcome{
+        position: relative;
+    }
+
+    .welcome .particle{
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .welcome_inner{
+        padding: 190px 0 230px 0;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .welcome_title{
+        font-weight: 800;
+        font-size: 78px;
+        line-height: 1;
+        margin-bottom: 36px;
+        color: black;
+    }
+ 
+
+    .sponsors{
+        position: relative;
+    }
+
+    .sponsors .particle{
+        top: -130px;
+        z-index: -1;
+    }
+
+    .sponsors_inner{
+        padding-top: 88px;
+        padding-bottom: 220px ;
+    }
+
+    .sponsors_list{
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .section_subtit{
+        display: block;
+        width: 100%;
+        text-align: center;
+        color: black;
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    .section_title{
+        font-size: 45px;
+        color: black;
+        margin-bottom: 30px;
+    }
+
+    .special{
+        position: relative;
+        padding-bottom: 140px;
+
+    }
+
+    .special .particle{
+        top: 100px;
+
+    }
+
+    .special_cards{
+        display: flex;
+        justify-content: baseline;
+        gap: 40px;
+     flex-wrap: wrap;   
+     margin-bottom: 80px;
+    }
+
+    .special_card{
+        padding: 40px 30px;
+        flex-basis: 50%;
+       max-width: 384px;
+        border: 1px solid #ededed;
+        border-radius: 5px;
+    }
+
+    .special_card:hover{
+        box-shadow: 0px 100px 80px rgba(49, 49, 49, 0.1);
+    }
+
+    .special_card-head{
+        display: flex;
+        column-gap: 15px;
+        margin-bottom: 32px;
+    }
+
+    .special_card-title{
+        font-size: 22px;
+        color: #313131;
+        font-weight: 500;
+    }
+
+    .special_card-description{
+        font-size: 20px;
+        color: black;
+        margin-bottom: 30px;
+    }
+
+    .portfol{
+        position: relative;
+        padding-bottom: 140px;
+    }
+
+    .portfol_link{
+        text-decoration: none;
+        color: #49AD09;
+        font-size: 20px;
+    }
+
+    .portfol_cards{
+        margin-bottom: 80px;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 50px;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .portfol_colum{
+        display: flex;
+        flex-direction: column;
+        margin-top: 70px;
+        row-gap: 70px;
+    }
+
+    .testimoni_inner{
+        position: relative;
+        padding: 140px;
+    }
+
+    .testimoni_slidir{
+        background-color: #f2f2f2;
+        padding: 30px 0;
+        margin: 0 80px;
+        position: relative;
+        height: 540px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .testimoni_list{
+        display: flex;
+        column-gap: 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .testimoni_slid{
+        flex-shrink: 0;
+        background-color: #fff;
+box-shadow: 0px 100px 80px rgba(49, 49, 49, 0.1);
+width: 380px;
+padding: 48px 32px;
+    }
+
+    .testimoni_rate{
+        display: flex;
+        row-gap: 3px;
+        margin-bottom: 20px;
+    }
+
+    .testimoni_control{
+        padding: 8px;
+        border-radius: 70px;
+        background-color: #fff;
+    }
+
+    .left-btn,
+    .right-btn{
+        border: none;
+        background-color: transparent;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .right-btn{
+        background-color: black;
+    }
+
+    .pricing_cards{
+        display: flex;
+        gap: 42px;
+        justify-content: center;
+        padding-bottom: 140px;
+        flex-wrap: wrap;
+    }
+
+    .pricing_card{
+        padding: 50px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #ededed;
+        max-width: 362px;
+        width: 100%;
+    }
+
+    .pricing_card-head{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 25px;
+
+    }
+
+    .pricing_card-title{
+        font-size: 30px;
+        font-weight: 500;
+        margin-bottom: 21px;
+        color: #313131;
+    }
+
+    .price{
+        font-size: 60px;
+        font-weight: 700;
+        color: #313131;
+        margin-bottom: 24px;
+    }
+
+    .advantages{
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+        margin-bottom: 40px;
+    }
 </body>
 </html>
