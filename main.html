@@ -49,5 +49,127 @@
         <img src="./images/Instagram.png" alt="" />
       </div>
     </footer>
+
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+  padding: 40px 120px;
+}
+header img {
+  width: 70px;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav_link {
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+}
+.links {
+  text-decoration: none;
+  color: black;
+  font-weight: 700;
+}
+
+.hello {
+  padding: 40px 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.controller {
+  width: 400px;
+  margin-right: 200px;
+}
+
+.info p {
+  opacity: 0.3;
+  padding-left: 27px;
+}
+.info h3 {
+  padding-left: 27px;
+  margin: 0;
+}
+
+.main_text {
+  padding-left: 20px;
+  border-left: #dd2476 solid 7px;
+}
+.main_text h1 {
+  font-size: 50px;
+}
+.main_text p {
+  font-size: 30px;
+  opacity: 0.5;
+  padding: 0;
+}
+
+.btn {
+  background-image: linear-gradient(
+    to right,
+    #ff512f 0%,
+    #dd2476 51%,
+    #ff512f 100%
+  );
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  margin-left: 27px;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+  width: 200px;
+}
+.box {
+  z-index: 1;
+}
+.bg {
+  position: absolute;
+  right: 10px;
+  height: 280px;
+  width: 450px;
+  background-image: linear-gradient(to right, #ff5da2 0, #fe6067 100%);
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.bg img {
+  width: 70px;
+}
+footer {
+  display: flex;
+  justify-content: center;
+}
+footer img {
+  width: 40px;
+}
+
+@media screen and (max-width: 768px){
+  .controller{
+    margin-bottom: 250px;
+    padding-bottom: 250px;
+  
+  }
+  .bg img{
+    margin-right: 200px;
+  }
+}
   </body>
 </html>
