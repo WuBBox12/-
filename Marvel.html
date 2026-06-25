@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DC & Marvel Universe</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" crossorigin="" />
+  <style>
+    /* Оставлю стиль тот же, как и раньше */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    header {
+      background: linear-gradient(to right, #f0131e, #ff5e3a);
+      padding: 50px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 3em;
+      letter-spacing: 2px;
+    }
+    nav {
+      background-color: #111;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-bottom: 1px solid #333;
+    }
+    nav a {
+      padding: 14px 28px;
+      background: linear-gradient(to right, #f0131e, #ff5e3a);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+    nav a:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #c10f18, #e04624);
+    }
+    section {
+      padding: 50px 30px;
+      max-width: 1000px;
+      margin: auto;
+      margin-top: 20px;
+    }
+    h2 {
+      color: #f0131e;
+      border-bottom: 3px solid #f0131e;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+      font-size: 2em;
+    }
+    #mapid {
+      height: 400px;
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+    .battle-result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.4em;
+      color: #ffcc00;
+    }
+    label, select {
+      font-size: 1em;
+      margin-right: 15px;
+    }
+    select {
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #1c1c1c;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    th, td {
+      padding: 15px;
+      border: 1px solid #444;
+    }
+    th {
+      background-color: #f0131e;
+    }
+    #movies ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #movies li {
+      background-color: #222;
+      padding: 12px;
+      margin: 6px 0;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    #movies li:hover {
+      background-color: #333;
+    }
+    input[type="file"], textarea {
+      margin-top: 10px;
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      background: #2a2a2a;
+      color: #fff;
+    }
+    textarea {
+      height: 120px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 24px;
+      font-size: 1.1em;
+      background: linear-gradient(to right, #f0131e, #ff5e3a);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #c10f18, #ff471a);
+    }
+    footer {
+      background-color: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 25px;
+      margin-top: 50px;
+      border-top: 1px solid #333;
+      font-size: 0.95em;
+    }
+    .dialogue-list {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    }
+    .dialogue-list h3 {
+      margin-top: 0;
+      color: #ff5e3a;
+    }
+    .dialogue-list ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .dialogue-list li {
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DC & Marvel Universe Portal</h1>
+  </header>
+    
+  <nav>
+    <a href="#map">Интерактивная карта</a>
+    <a href="#battle">Симулятор боя</a>
+    <a href="#comic">Комикс-генератор</a>
+    <a href="#compare">Сравнение персонажей</a>
+    <a href="#guide">Путеводитель по фильмам</a>
+  </nav>
+
+  <section id="map">
+    <h2>Интерактивная карта вселенной</h2>
+    <div id="mapid"></div>
+  </section>
+
+ 
+  <section id="battle">
+    <h2>Симулятор боя</h2>
+    <form id="battle-form">
+      <label for="hero1">Выберите первого героя:</label>
+      <select id="hero1"></select>
+      <br>
+      <label for="hero2">Выберите второго героя:</label>
+      <select id="hero2"></select>
+      <br><br>
+      <button type="submit">Начать бой</button>
+    </form>
+    <div class="battle-result" id="battle-result"></div>
+
+    <div class="dialogue-list">
+        <button onclick="toggleDialogueList()">Показать героев с диалогами</button>
+        <div id="dialogue-heroes" style="display: none; margin-top: 15px;">
+          <h3>Герои с доступными диалогами:</h3>
+          <ul>
+            <li>Супермен vs Джокер</li>
+            <li>Бэтмен vs Лекс Лютор</li>
+            <li>Чудо-женщина vs Тор</li>
+            <li>Человек-Паук vs Локи</li>
+            <li>Халк vs Джокер</li>
+            <li>Железный Человек vs Локи</li>
+            <li>Тор vs Халк</li>
+          </ul>
+        </div>
+      </div>
+
+  </section>
+
+  <section id="comic">
+    <h2>Комикс-генератор</h2>
+    <p>Выберите двух персонажей и создайте их диалоги:</p>
+    <form>
+      <label for="comic-hero1">Персонаж 1:</label>
+      <select id="comic-hero1">
+        <option value="superman">Супермен</option>
+        <option value="batman">Бэтмен</option>
+        <option value="wonderwoman">Чудо-женщина</option>
+        <option value="flash">Флэш</option>
+        <option value="aquaman">Аквамен</option>
+        <option value="greenlantern">Грин Лантерн</option>
+        <option value="joker">Джокер</option>
+        <option value="lexluthor">Лекс Лютор</option>
+        <option value="thunder">Тандер</option>
+      </select>
+      <br>
+      <label for="comic-hero2">Персонаж 2:</label>
+      <select id="comic-hero2">
+        <option value="superman">Супермен</option>
+        <option value="batman">Бэтмен</option>
+        <option value="wonderwoman">Чудо-женщина</option>
+        <option value="flash">Флэш</option>
+        <option value="aquaman">Аквамен</option>
+        <option value="greenlantern">Грин Лантерн</option>
+        <option value="joker">Джокер</option>
+        <option value="lexluthor">Лекс Лютор</option>
+        <option value="thunder">Тандер</option>
+      </select>
+      <br><br>
+      <label for="dialog1">Диалог персонажа 1:</label>
+      <textarea id="dialog1" placeholder="Что скажет персонаж 1..."></textarea>
+      <br>
+      <label for="dialog2">Диалог персонажа 2:</label>
+      <textarea id="dialog2" placeholder="Что скажет персонаж 2..."></textarea>
+      <br><br>
+      <button type="submit">Создать комикс</button>
+    </form>
+    <div id="comic-result"></div>
+  </section>
+
+  <section id="compare">
+    <h2>Сравнение популярных персонажей DC и Marvel</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Персонаж</th>
+                <th>Вселенная</th>
+                <th>Силы и Способности</th>
+                <th>Противники</th>
+                <th>Примечания</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Супермен</td>
+                <td>DC</td>
+                <td>Сверхсила, летание, термальное зрение, неуязвимость</td>
+                <td>Лекс Лютор, Думсдей, Зод</td>
+                <td>Один из самых мощных героев DC</td>
+            </tr>
+            <tr>
+                <td>Бэтмен</td>
+                <td>DC</td>
+                <td>Эксперт по боевым искусствам, интеллект, гениальный детектив</td>
+                <td>Джокер, Ридлер, Пингвин</td>
+                <td>Мастер боевых искусств и стратег</td>
+            </tr>
+            <tr>
+                <td>Человек-Паук</td>
+                <td>Marvel</td>
+                <td>Сверхчеловеческая сила, ловкость, паутина</td>
+                <td>Зелёный Гоблин, Доктор Осьминог</td>
+                <td>Один из самых любимых героев Marvel</td>
+            </tr>
+            <tr>
+                <td>Железный Человек</td>
+                <td>Marvel</td>
+                <td>Гениальный интеллект, бронированный костюм, сверхсила</td>
+                <td>Танос, Мандарин</td>
+                <td>Один из основателей Мстителей</td>
+            </tr>
+            <tr>
+                <td>Чудо-женщина</td>
+                <td>DC</td>
+                <td>Сверхсила, бессмертие, мастер боевых искусств</td>
+                <td>Арес, Деафа</td>
+                <td>Богиня и амазонка, защитница мира</td>
+            </tr>
+            <tr>
+                <td>Халк</td>
+                <td>Marvel</td>
+                <td>Сверхсила, регенерация, иммунитет к ядам</td>
+                <td>Абоминейшн, Локи</td>
+                <td>Огромная сила и ярость, один из сильнейших</td>
+            </tr>
+        </tbody>
+    </table>
+
+  </section>
+
+  <section id="guide">
+    <h2>Путеводитель по фильмам</h2>
+    <div id="movies">
+      <ul>
+        <li>Человек из стали</li>
+        <li>Темный рыцарь</li>
+        <li>Мстители</li>
+        <li>Человек-Паук: Возвращение домой</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 DC & Marvel Fan Portal. Все права защищены.</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('mapid').setView([51.505, -0.09], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    const heroLocations = [
+      { name: "Супермен", coords: [38.8136, -94.9285], city: "Смолвиль (Канзас, США)" },
+      { name: "Бэтмен", coords: [40.7128, -74.0060], city: "Готэм-Сити (основан на Нью-Йорке, США)" },
+      { name: "Чудо-женщина", coords: [37.9838, 23.7275], city: "Темискира (основано на мифической Греции)" },
+      { name: "Человек-Паук", coords: [40.730610, -73.935242], city: "Нью-Йорк, США" },
+      { name: "Железный Человек", coords: [34.0522, -118.2437], city: "Лос-Анджелес, США" },
+      { name: "Тор", coords: [60.4720, 8.4689], city: "Асгард (основан на скандинавских мифах)" },
+      { name: "Халк", coords: [46.8772, -96.7898], city: "Фарго (Северная Дакота, США)" },
+      { name: "Джокер", coords: [40.7128, -74.0060], city: "Готэм-Сити (основан на Нью-Йорке, США)" },
+      { name: "Лекс Лютор", coords: [39.9612, -82.9988], city: "Метрополис (основан на Коламбусе, Огайо, США)" },
+      { name: "Локи", coords: [60.4720, 8.4689], city: "Асгард (основан на скандинавских мифах)" }
+    ];
+
+    heroLocations.forEach(hero => {
+      L.marker(hero.coords).addTo(map)
+        .bindPopup(`<strong>${hero.name}</strong><br>${hero.city}`);
+    });
+
+
+    // Симулятор боя
+    const battleForm = document.getElementById('battle-form');
+    const battleResult = document.getElementById('battle-result');
+
+    const battleDialogues = {
+      "superman-joker": [
+        "Супермен: Ты не победишь меня, Джокер. Я остановлю все твои планы.",
+        "Джокер: О, как ты ошибаешься, Супермен. Даже ты не сможешь пережить весь этот хаос!",
+        "Супермен использует лазерные глаза, но Джокер успевает запустить химическое оружие...",
+        "Супермен нейтрализует оружие и обезвреживает Джокера. СУПЕРМЕН ПОБЕДИЛ!"
+      ],
+      "batman-lexluthor": [
+        "Бэтмен: Ты больше не сможешь скрываться в тени, Лекс. Твое время пришло.",
+        "Лекс Лютор: Ты ошибаешься, Бэтмен. Я не боюсь твоих игрушек.",
+        "Бэтмен использует свои боевые навыки и гаджеты, чтобы нейтрализовать Лекса. БЭТМЕН ПОБЕДИЛ!"
+      ],
+      "wonderwoman-thor": [
+        "Чудо-женщина: Ты достойный противник, но я не уступлю!",
+        "Тор: Ты сражаешься храбро, но мой молот несет мощь всей Асгарда!",
+        "Они обмениваются мощными ударами, но в конце концов приходит НИЧЬЯ."
+      ],
+      "spiderman-loki": [
+        "Человек-Паук: Что ты задумал, Локи? Ты ведь не думаешь, что легко победишь меня, верно?",
+        "Локи: Ты не понимаешь, Питер, у меня есть магия, которая способна разрушить даже твой самый мощный удар.",
+        "Человек-Паук ловко увертывается от заклинаний и связывает Локи паутиной. ЧЕЛОВЕК-ПАУК ВЫЙГРАЛ!"
+      ],
+      "hulk-joker": [
+        "Халк: ХАЛК РАЗОЗЛЁН!",
+        "Джокер: Ты думал, я испугаюсь? Посмотрим, как ты справишься с этим!",
+        "Халк крушит все на своём пути, а Джокер запускает ловушки одну за другой.",
+        "В итоге, Халк побеждает: Халк берет верх над безумием Джокера."
+      ],
+      "ironman-loki": [
+        "Железный Человек: Надеюсь, ты готов к настоящему техно-шоу, Локи.",
+        "Локи: С этими игрушками ты думаешь, что сможешь меня победить?",
+        "Технология и магия сталкиваются. Локи почти одерживает победу, но Тони использует умную стратегию и побеждает."
+      ],
+      "thor-hulk": [
+        "Тор: Халк, успокойся, брат!",
+        "Халк: ХАЛК НЕ БРАТ! ХАЛК СИЛЬНЫЙ!",
+        "Гигантская схватка богов и монстров. Оба сходят с дистанции без победителя. НИЧЬЯ!"
+      ]
+    };
+
+    const allHeroes = [
+      { name: "superman", label: "Супермен" },
+      { name: "batman", label: "Бэтмен" },
+      { name: "wonderwoman", label: "Чудо-женщина" },
+      { name: "spiderman", label: "Человек-Паук" },
+      { name: "ironman", label: "Железный Человек" },
+      { name: "thor", label: "Тор" },
+      { name: "hulk", label: "Халк" },
+      { name: "joker", label: "Джокер" },
+      { name: "lexluthor", label: "Лекс Лютор" },
+      { name: "loki", label: "Локи" }
+    ];
+
+    function updateHeroOptions() {
+      const hero1Select = document.getElementById('hero1');
+      const hero2Select = document.getElementById('hero2');
+      hero1Select.innerHTML = '<option disabled selected>-- выберите героя --</option>';
+      hero2Select.innerHTML = '<option disabled selected>-- выберите героя --</option>';
+
+      const available = new Set();
+      Object.keys(battleDialogues).forEach(key => {
+        const [a, b] = key.split('-');
+        available.add(a);
+        available.add(b);
+      });
+
+      allHeroes.forEach(hero => {
+        if (available.has(hero.name)) {
+          const opt1 = document.createElement('option');
+          opt1.value = hero.name;
+          opt1.textContent = hero.label;
+          hero1Select.appendChild(opt1);
+
+          const opt2 = document.createElement('option');
+          opt2.value = hero.name;
+          opt2.textContent = hero.label;
+          hero2Select.appendChild(opt2);
+        }
+      });
+    }
+
+    battleForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const hero1 = document.getElementById('hero1').value;
+      const hero2 = document.getElementById('hero2').value;
+      if (hero1 === hero2) {
+        battleResult.innerHTML = "Выберите двух разных героев.";
+        return;
+      }
+      const key = `${hero1}-${hero2}`;
+      const altKey = `${hero2}-${hero1}`;
+      const dialogue = battleDialogues[key] || battleDialogues[altKey] || ["Они начинают бой... и бой получился напряжённым! Оба показали на что способны!"];
+      battleResult.innerHTML = dialogue.join("<br>");
+    });
+
+    function toggleDialogueList() {
+  const list = document.getElementById('dialogue-heroes');
+  const button = list.previousElementSibling;
+  if (list.style.display === "none") {
+    list.style.display = "block";
+    button.textContent = "Скрыть героев с диалогами";
+  } else {
+    list.style.display = "none";
+    button.textContent = "Показать героев с диалогами";
+  }
+}
+
+
+    updateHeroOptions();
+
+    // Комикс-генератор
+    const comicForm = document.querySelector("#comic form");
+    const comicResult = document.getElementById("comic-result");
+
+    comicForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const hero1 = document.getElementById('comic-hero1').value;
+      const hero2 = document.getElementById('comic-hero2').value;
+      const dialog1 = document.getElementById('dialog1').value;
+      const dialog2 = document.getElementById('dialog2').value;
+
+      comicResult.innerHTML = `
+        <h3>Комикс о ${hero1} и ${hero2}</h3>
+        <p><strong>${hero1}</strong>: ${dialog1}</p>
+        <p><strong>${hero2}</strong>: ${dialog2}</p>
+      `;
+    });
+  </script>
+</body>
+</html>
